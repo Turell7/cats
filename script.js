@@ -6,24 +6,27 @@ const CONFIG_API = {
 }
 
 const $wr = document.querySelector("[data-wr]");
+const $openModalBtn = document.querySelector(`[data-open_modal]`);
+const $modalsWr = document.querySelector('[data-modals_wr]');
+
 $wr.innerHTML = "";
 
 const generateCardHTML = (el) => {
-    return `
-    <div class="card mx-2 my-3" style="width: 18rem;">
-        <img src="${el.img_link}" class="card-img-top" alt="${el.name}">
-        <div class="card-body">
-            <h5 class="card-title">${el.name}</h5>
-            <p class="card-text">Возраст: ${el.age}</p>
-            <button type="button"  class="btn btn-secondary">
-                Подробнее
-            </button>
-            <button type="button"  class="btn btn-danger">
-                Удалить
-            </button>
-        </div>
+  return `
+  <div data-card_id="${el.id}" class="card mx-3 my-3" style="width: 18rem;">
+    <div class="scale">
+      <img data-action="show" src="${el.img_link}" class="cat_img card-img-top" alt="${el.name}">
     </div>
-    `
+    <div class="card-body">
+        <h5 class="card-title">${el.name}</h5>
+        <p class="card-text">Возраст: ${el.age}</p>
+        <button data-action="delete" class="btn btn-danger">
+            X
+            <i data-action="delete" class="fa-solid fa-cat"></i>
+        </button>            
+    </div>
+  </div>
+  `
 }
 
 class Api {
@@ -35,7 +38,7 @@ class Api {
   async getAllCats() {
     const response = await fetch(`${this.url}/show`)
     
-    return response.json()
+    return response.json();
   }
 
   getAllCatsIds() {
@@ -46,12 +49,17 @@ class Api {
     fetch(`${this.url}/show/${id}`);
   }
 
-  createCat(cat) {
-    fetch(`${this.url}/add`, {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify(cat),
-  });
+  async createCat(cat) {
+    try {
+      const response = await fetch(`${this.url}/add`, {
+        method: "POST",
+        headers: this.headers,
+        body: JSON.stringify(cat),
+      });
+      // Добавить отработку ошибки по сообщению с бека (2:41:20)
+    } catch (Error) {
+      throw new Error(Error);
+    }
   }
 
   updateCat(id, updateCat) {
@@ -62,10 +70,17 @@ class Api {
       });    
   }
 
-  deleteCat(id) {
-    fetch(`${this.url}/delete/${id}`, {
-      method: "DELLETE",
-    });
+  async deleteCat(id) {
+    try {
+      const response = await fetch(`${this.url}/delete/${id}`, {
+        method: "DELETE", 
+      });
+      if (response.status !== 200) {
+        throw new Error(Error)
+      }
+    } catch (Error) {
+      throw new Error(Error)
+    } 
   }
 }
 
@@ -76,114 +91,39 @@ api.getAllCats().then((responseFromBackend) => {
 })
 
 $wr.addEventListener('click', (event) => {
-  console.log(event.target.dataset)
+  switch (event.target.dataset.action) {
+    case 'delete': {
+      const $cardWr = event.target.closest('[data-card_id');
+      const catId = $cardWr.dataset.card_id;
+      api.deleteCat(catId).then(() => {
+        $cardWr.remove()
+      }).catch(alert)
+      break
+    }
+    default:
+
+      break
+  }
 })
 
+document.forms.add_cat.addEventListener('submit', (event) => {
+  event.preventDefault();
 
+  const data = Object.fromEntries(new FormData(event.target).entries())
 
+  data.id = +data.id;
+  data.rate = +data.rate;
+  data.favourite = data.favourite === 'on';
 
+  api.createCat(data).then(() => {
+    $wr.insertAdjacentHTML('beforeend', generateCardHTML(data))
+    $modalsWr.classList.add('hidden');
+    event.target.reset();
+  }).catch(alert);
+  console.log(data);
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class Api {
-//   constructor(config) {
-//     this.url = config.url;
-//     this.headers = config.headers;
-//   }
-
-//   getAllCats() {
-//     fetch(`${this.url}/show`)
-//     .then(response => response.json())
-//     .then(json => {
-//         const cardHTML = json.data.map(el => generateCardHTML(el))
-
-//         $wr.insertAdjacentHTML('beforeend', cardHTML)
-//     });
-//   }
-
-//   getAllCatsIds() {
-//     fetch(`${this.url}/ids`);
-//   }
-
-//   getCatById(id) {
-//     fetch(`${this.url}/show/${id}`);
-//   }
-
-//   createCat(cat) {
-//     fetch(`${this.url}/add`, {
-//       method: "POST",
-//       headers: this.headers,
-//       body: JSON.stringify(cat),
-//   });
-//   }
-
-//   updateCat(id, updateCat) {
-//     fetch(`${this.url}/update/${id}`, {
-//       method: "PUT",
-//       headers: this.headers,
-//       body: JSON.stringify(updateCat),
-//       });    
-//   }
-
-//   deleteCat(id) {
-//     fetch(`${this.url}/delete/${id}`, {
-//       method: "DELLETE",
-//     });
-//   }
-// }
-
-// const api = new Api(CONFIG_API);
-
-// api.getAllCats();
-
-// api.getAllCats();
-
-// console.log(api);
-// api.getAllCats();
-// api.getAllCatsIds();
-// api.getCatById(2);
-// api.createCat({id: 37, 'name': "Ululu"});
-// api.updateCat(37, {'name': "Plux", 'age': 3});
-// api.deleteCat(37);
-
-
-
-
-
-
-
-
-
-// fetch("https://sb-cats.herokuapp.com/api/2/turell7/show")
-// .then(response => response.json())
-
-
-
-// const modal = $modal({
-//     title: 'Имя котика',
-//     content: 'Содержимое окна'
-// });
-
-
-
-
-
-
-
-
-
-
-
+$openModalBtn.addEventListener('click', () => {
+  $modalsWr.classList.remove('hidden');
+  console.log($openModalBtn);
+})

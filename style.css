@@ -1,28 +1,46 @@
-.container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    margin: 0 auto;
-    gap: 20px;
-}
-@media (min-width: 1000px) {
-    .container {
-        width: 1000px;
-    }
-}
 .card {
-    border: 1px solid;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    align-items: center;
-    text-align: center;
-    border-radius: 10px;
+    padding: 0;
 }
-h3 {
-    margin: 0;
-}
-img {
-    width: 200px;
 
+.scale {
+    display: inline-block; /* Строчно-блочный элемент */
+    overflow: hidden; /* Скрываем всё за контуром */
+    width: auto;
+    height: 200px;
+   }
+
+.scale img{
+    height: 200px;
+    transition: 1s; /* Время эффекта */
+    display: block
+}
+
+.scale img:hover {
+transform: scale(1.2);
+z-index: 99;
+}
+
+.modal-wr {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 99;
+    background: rgba(0, 0, 0, .5);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.custom-modal {
+    padding: 2rem;
+    border-radius: 8px;
+    background: white;
+    display: flex;
+    justify-content: center;
+}
+
+.hidden {
+    display: none;
 }
