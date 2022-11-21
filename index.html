@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Котики</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="fa/css/all.min.css">
+    <script src="https://kit.fontawesome.com/4e642bff74.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
@@ -49,9 +49,10 @@
   </div>
   <!-- Card cat End -->
     
-  <!-- Modal card-cat Start -->
+  <!-- Modal add-cat Start -->
   <div data-modals_wr class="modal-wr hidden">
     <div class="custom-modal">
+      <div data-close-modal-add-cat data-action="close" class="modal-close"></div>
       <form name="add_cat">
         <div class="mb-3">
           <input
@@ -59,8 +60,8 @@
           name="id"
           type="text"
           class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp">
+          required
+          >
         </div>
         <div class="mb-3">
           <input
@@ -68,8 +69,8 @@
           name="name"
           type="text"
           class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp">
+          required
+          >
         </div>
         <div class="mb-3">
           <input
@@ -77,17 +78,18 @@
           name="rate"
           type="number"
           class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp">
+          min="0"
+          max="10"
+          >
         </div>
         <div class="mb-3">
           <input
-          placeholder="Decription"
-          name="description"
-          type="text"
+          placeholder="Age"
+          name="age"
+          type="number"
           class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp">
+          min="0"
+          >
         </div>
         <div class="mb-3 form-check">
           <input
@@ -96,10 +98,9 @@
           name="favourite"
           id="flexRadioDefault1">
           <label
-          class="form-check-label"
-          for="flexRadioDefault1">
-            favorite
-          </label>
+            class="form-check-label"
+            for="flexRadioDefault1"
+            >favorite</label>
         </div>
         <div class="mb-3">
           <input
@@ -107,13 +108,33 @@
           name="img_link"
           type="text"
           class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp">
+          >
+        </div>
+        <div class="mb-3">
+          <textarea
+            placeholder="Description"
+            name="description"
+            type="text"
+            class="form-control"
+          ></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Отправить</button>
       </form>
     </div>
   </div>
+  <!-- Modal add-cat End -->
+
+  <!-- Modal card-cat Start -->
+  <div data-modals_cat class="modal-wr hidden">
+    <div class="custom-modal">
+      <div data-close-modal-cat class="modal-close"></div>
+      <div data-modals_cat-wr class="">
+        ...
+      </div>
+      
+    </div>
+  </div>
+  <!-- Modal card-cat End -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>
 </html>
