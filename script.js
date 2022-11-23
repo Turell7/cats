@@ -287,6 +287,6 @@ if (formDataFromLS) {
 
 
 document.forms.add_cat.addEventListener('input', (e) => {
-	const formDataObj = Object.fromEntries(new FormData(document.forms.person).entries())
+	const formDataObj = Object.fromEntries(new FormData(document.forms.add_cat).entries())
 	localStorage.setItem(document.forms.add_cat.name, JSON.stringify(formDataObj))
 })
