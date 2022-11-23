@@ -216,8 +216,6 @@ $wr.addEventListener('click', (event) => {
     case 'show': {
       const $cardWr = event.target.closest('[data-card_id]');
       const catId = $cardWr.dataset.card_id;
-      console.log(catId);
-      
 
       api.getCatById(catId).then((response) =>  {
         dataCat = response.data;
@@ -266,12 +264,10 @@ document.forms.add_cat.addEventListener('submit', (event) => {
     $modalsWr.classList.add('hidden');
     event.target.reset();
   }).catch(alert);
-  console.log(data);
 });
 
 $openModalBtn.addEventListener('click', () => {
   $modalsWr.classList.remove('hidden');
-  console.log($openModalBtn);
 });
 
 document.querySelector('[data-close-modal-add-cat]').addEventListener('click', () => {
@@ -292,6 +288,5 @@ if (formDataFromLS) {
 
 document.forms.add_cat.addEventListener('input', (e) => {
 	const formDataObj = Object.fromEntries(new FormData(document.forms.person).entries())
-	console.log({formDataObj})
 	localStorage.setItem(document.forms.add_cat.name, JSON.stringify(formDataObj))
 })
