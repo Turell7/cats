@@ -14,6 +14,13 @@ const $modalsCat = document.querySelector('[data-modals_cat]');
 
 const $modalCat = document.querySelector('[data-modals_cat-wr]');
 
+const $nameInput = document.forms.add_cat.name
+
+const rawFormDataFromLS = localStorage.getItem(document.forms.add_cat.name);
+const formDataFromLS = rawFormDataFromLS ? JSON.parse(rawFormDataFromLS): undefined;
+
+
+
 $wr.innerHTML = "";
 $modalCat.innerHTML = "";
 
@@ -276,3 +283,15 @@ document.querySelector('[data-close-modal-cat]').addEventListener('click', () =>
   $modalsCat.classList.add('hidden');
 });
 
+if (formDataFromLS) {
+	Object.keys(formDataFromLS).forEach(key => {
+		document.forms.add_cat[key].value = formDataFromLS[key]	
+	})
+}
+
+
+document.forms.add_cat.addEventListener('input', (e) => {
+	const formDataObj = Object.fromEntries(new FormData(document.forms.person).entries())
+	console.log({formDataObj})
+	localStorage.setItem(document.forms.add_cat.name, JSON.stringify(formDataObj))
+})
