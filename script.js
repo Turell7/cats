@@ -14,12 +14,6 @@ const $modalsCat = document.querySelector('[data-modals_cat]');
 
 const $modalCat = document.querySelector('[data-modals_cat-wr]');
 
-// const $formChangeCat = document.querySelector('data-form_change-cat');
-// const $infoCat = document.querySelector('[data-info-cat]');
-
-
-// const $closeModal = document.querySelector('[data-modals_cat]');
-// console.log($closeModal);
 $wr.innerHTML = "";
 $modalCat.innerHTML = "";
 
@@ -41,9 +35,7 @@ const generateCardsHTML = (el) => {
   `
 }
 
-
 const generateCardHTML = (el) => {
-  // $modalCat.innerHTML = "";
   return `
     <div class="card mb-3"style="width: 28rem;">
       <img class="card-img-top" src="${el.img_link}" alt="Card image cap">
@@ -240,14 +232,15 @@ $modalCat.addEventListener('click', (event) => {
     }
     case 'update': {
       event.preventDefault();
-      const data = Object.fromEntries(new FormData(event.target).entries());
+      const data = Object.fromEntries(new FormData(document.forms.change_cat).entries());
 
       data.id = +data.id;
       data.rate = +data.rate;
       data.favourite = data.favourite === 'on';
      
-      console.log("hi")
-      console.log(data)
+      api.updateCat(data.id, data).then(() => {
+        $modalsCat.classList.add('hidden');
+      })
     }
   }
 })
@@ -283,31 +276,3 @@ document.querySelector('[data-close-modal-cat]').addEventListener('click', () =>
   $modalsCat.classList.add('hidden');
 });
 
-
-
-
-
-// $openModalCat.addEventListener('click', () => {
-//   // $modalsCat.classList.remove('hidden');
-//   // console.log($openModalCat);
-// });
-
-let a = "";
-document.forms.add_cat.addEventListener('input', (e) => {
-  a = e.target;
-
-  
-  // console.log(e.target.name, e.target.name, e.target.value);
-  // if(e.target.name === img_link) {
-  //   let linku = e.target.value
-  //   console.log(linku)
-  // }
-  // console.log(e.target)
-  
-})
-
-
-// document.forms.add_cat.addEventListener('input', (e) => {
-//   localStorage.setItem(e. target)
-//   console.log(e.target.name, e.target.value);
-// })
