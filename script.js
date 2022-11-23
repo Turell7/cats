@@ -246,7 +246,7 @@ $modalCat.addEventListener('click', (event) => {
       data.favourite = data.favourite === 'on';
      
       api.updateCat(data.id, data).then(() => {
-        $modalsCat.classList.add('hidden');
+        location.reload()
       })
     }
   }
